@@ -127,10 +127,74 @@ module.exports.processDelete = (req, res, next) => {
       } else {
         res.status(200).json({
           success: true,
-          message: "Activity disabled successfully.",
+          message: "Activity deleted successfully.",
         });
       }
     });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+};
+
+module.exports.addParticipant = (req, res, next) => {
+  try {
+    let id = req.params.id;
+    let userid = req.params.userid;
+
+    Activity.updateOne(
+      { _id: id },
+      { $push: { participant: userid } },
+      (err, result) => {
+        if (err || result.modifiedCount == 0) {
+          console.log(err);
+
+          res.status(400).json({
+            success: false,
+            message: getErrorMessage(err),
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            message: "Participant added successfully.",
+          });
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+};
+
+module.exports.deleteParticipant = (req, res, next) => {
+  try {
+    let id = req.params.id;
+    let userid = req.params.userid;
+
+    Activity.updateOne(
+      { _id: id },
+      { $pull: { participant: userid } },
+      (err, result) => {
+        if (err || result.modifiedCount == 0) {
+          console.log(err);
+
+          res.status(400).json({
+            success: false,
+            message: getErrorMessage(err),
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            message: "Participant deleted successfully.",
+          });
+        }
+      }
+    );
   } catch (error) {
     return res.status(400).json({
       success: false,
