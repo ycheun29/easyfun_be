@@ -1,6 +1,7 @@
 let config = require("./config");
 
 let mongoose = require("mongoose");
+mongoose.set("strictQuery", true);
 
 module.exports = function () {
   mongoose.connect(

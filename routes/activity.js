@@ -4,4 +4,8 @@ var router = express.Router();
 let activityController = require("../controllers/activity");
 
 router.get("/", activityController.getList);
+router.post("/add", activityController.processAdd);
+router.put("/edit/:id", activityController.processEdit);
+router.delete("/delete/:id", activityController.processDelete);
+
 module.exports = router;
