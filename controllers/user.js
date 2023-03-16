@@ -134,37 +134,4 @@ module.exports.signin = function(req, res, next){
   
   }
 
-  exports.updateProfile = (req, res, next) => {
-    try {
-      let id = req.payload.id;
   
-      let updatedItem = User({
-        _id: id,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        username: req.body.username
-      });
-  
-      User.updateOne({ _id: id }, updatedItem, (err, result) => {
-        if (err || result.modifiedCount == 0) {
-          console.log(err);
-  
-          res.status(400).json({
-            success: false,
-            message: getErrorMessage(err),
-          });
-        } else {
-          res.status(200).json({
-            success: true,
-            message: "User information updated successfully."
-          });
-        }
-      });
-    } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: getErrorMessage(error),
-      });
-    }
-  };
