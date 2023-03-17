@@ -11,7 +11,7 @@ module.exports = function () {
     "tokencheck",
     new JWTstrategy(
       {
-        secretOrKey: config.SECRET,
+        secretOrKey: config.SECRETKEY,
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       },
       async (token, done) => {
