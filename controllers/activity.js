@@ -13,17 +13,12 @@ function getErrorMessage(err) {
   }
 }
 
-module.exports.getList = async function (req, res, next) {
+module.exports.getAll = async function (req, res, next) {
   try {
-    let activityList = await Activity.find()
-      .populate({
-        path: "owner",
-        select: "firstName lastName username ",
-      })
-      .populate({
-        path: "participant",
-        select: "firstName lastName username ",
-      });
+    let activityList = await Activity.find().populate({
+      path: "owner",
+      select: "firstName lastName email username created",
+    });
 
     res.status(200).json(activityList);
   } catch (error) {
@@ -41,15 +36,18 @@ module.exports.processEdit = (req, res, next) => {
     let updatedItem = Activity({
       _id: id,
       title: req.body.title,
+      price: req.body.price,
       picture: req.body.picture,
       description: req.body.description,
       status: req.body.status,
-      startDate: req.body.startDate,
-      expireDate: req.body.expireDate,
+      date: req.body.date,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
       owner:
         req.body.owner == null || req.body.owner == ""
           ? req.payload.id
           : req.body.owner,
+      category: req.body.category,
     });
 
     Activity.updateOne({ _id: id }, updatedItem, (err, result) => {
@@ -78,15 +76,18 @@ module.exports.processAdd = (req, res, next) => {
     let newItem = Activity({
       _id: req.body.id,
       title: req.body.title,
+      price: req.body.price,
       picture: req.body.picture,
       description: req.body.description,
       status: req.body.status,
-      startDate: req.body.startDate,
-      expireDate: req.body.expireDate,
+      date: req.body.date,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
       owner:
         req.body.owner == null || req.body.owner == ""
           ? req.payload.id
           : req.body.owner,
+      category: req.body.category,
     });
 
     Activity.create(newItem, (err, item) => {
@@ -97,7 +98,6 @@ module.exports.processAdd = (req, res, next) => {
           message: getErrorMessage(err),
         });
       } else {
-        console.log(item);
         res.status(200).json({
           success: true,
           message: "Activity added successfully.",
@@ -131,70 +131,6 @@ module.exports.processDelete = (req, res, next) => {
         });
       }
     });
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: getErrorMessage(error),
-    });
-  }
-};
-
-module.exports.addParticipant = (req, res, next) => {
-  try {
-    let id = req.params.id;
-    let userid = req.params.userid;
-
-    Activity.updateOne(
-      { _id: id },
-      { $push: { participant: userid } },
-      (err, result) => {
-        if (err || result.modifiedCount == 0) {
-          console.log(err);
-
-          res.status(400).json({
-            success: false,
-            message: getErrorMessage(err),
-          });
-        } else {
-          res.status(200).json({
-            success: true,
-            message: "Participant added successfully.",
-          });
-        }
-      }
-    );
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: getErrorMessage(error),
-    });
-  }
-};
-
-module.exports.deleteParticipant = (req, res, next) => {
-  try {
-    let id = req.params.id;
-    let userid = req.params.userid;
-
-    Activity.updateOne(
-      { _id: id },
-      { $pull: { participant: userid } },
-      (err, result) => {
-        if (err || result.modifiedCount == 0) {
-          console.log(err);
-
-          res.status(400).json({
-            success: false,
-            message: getErrorMessage(err),
-          });
-        } else {
-          res.status(200).json({
-            success: true,
-            message: "Participant deleted successfully.",
-          });
-        }
-      }
-    );
   } catch (error) {
     return res.status(400).json({
       success: false,

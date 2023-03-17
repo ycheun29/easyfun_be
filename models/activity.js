@@ -3,6 +3,7 @@ let mongoose = require("mongoose");
 let activityModel = mongoose.Schema(
   {
     title: String,
+    price: Number,
     picture: String,
     description: String,
     status: {
@@ -10,18 +11,24 @@ let activityModel = mongoose.Schema(
       enum: ["Active", "Disable"],
       default: "Active",
     },
-    startDate: Date,
-    expireDate: Date,
+    date: Date,
+    startTime: Date,
+    endTime: Date,
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    participant: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    category: {
+      type: String,
+      enum: [
+        "Academic Tutorial",
+        "Arts Class",
+        "Culinary Workshop",
+        "Fitness Course",
+        "Music Lesson",
+        "Social Event",
+      ],
+    },
   },
   {
     collection: "activity",
