@@ -30,6 +30,56 @@ module.exports.getActivity = async function (req, res, next) {
     });
   }
 };
+module.exports.getActivityWithActivityList = async function (req, res, next) {
+  console.log("req.query: " + JSON.stringify(req.query));
+  let criteria = {};
+  let currentDate = new Date();
+  criteria.status = "Active";
+  criteria.startTime = { $lt: currentDate };
+  criteria.endTime = { $gt: currentDate };
+  criteria = { ...criteria, ...req.query };
+
+  try {
+    let activityList = await Activity.find(criteria).populate({
+      path: "owner",
+      select: "firstName lastName email username created",
+    });
+
+    res.status(200).json(activityList);
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+};
+
+module.exports.getActivityWithActivityManagement = async function (
+  req,
+  res,
+  next
+) {
+  console.log("req.query: " + JSON.stringify(req.query));
+  console.log("req.payload.id: " + req.payload.id);
+  let criteria = {};
+  criteria.owner = req.payload.id;
+  criteria = { ...criteria, ...req.query };
+  console.log("criteria: " + JSON.stringify(criteria));
+
+  try {
+    let activityList = await Activity.find(criteria).populate({
+      path: "owner",
+      select: "firstName lastName email username created",
+    });
+
+    res.status(200).json(activityList);
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+};
 
 module.exports.editActivity = (req, res, next) => {
   try {
