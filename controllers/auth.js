@@ -88,7 +88,7 @@ exports.isOwner = async function (req, res, next) {
         return res.status(403).json({
           success: false,
           message:
-            "You are not authorized to answer this comment as you are not the post author.",
+            "You are not authorized to answer this comment as you are not the activity host.",
         });
       }
     }

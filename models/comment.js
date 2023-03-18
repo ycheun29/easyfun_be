@@ -5,9 +5,9 @@ let commentModel = mongoose.Schema(
     commenter: String,
     comment: String,
     response: String,
-    post: {
+    activity: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
+      ref: "Activity",
     },
   },
   {
