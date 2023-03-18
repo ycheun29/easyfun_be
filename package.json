@@ -7,7 +7,9 @@
     "start": "node server.js",
     "test": "nodemon server.js",
     "prod": "set NODE_ENV=production& node server.js",
-    "prodtest": "set NODE_ENV=production& nodemon server.js"
+    "prodtest": "set NODE_ENV=production& nodemon server.js",
+    "mac-prod": "NODE_ENV=production node server.js",
+    "mac-prodtest": "NODE_ENV=production nodemon server.js"
   },
   "repository": {
     "type": "git",
