@@ -16,7 +16,7 @@ function getErrorMessage(err) {
 //Get commentList
 module.exports.commentList = async function (req, res, next) {
   try {
-    let commentList = await Comment.find().populate("commenter");
+    let commentList = await Comment.find().populate();
 
     res.status(200).json(commentList);
   } catch (error) {
