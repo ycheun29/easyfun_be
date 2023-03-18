@@ -4,19 +4,17 @@ var router = express.Router();
 let participantController = require("../controllers/participant");
 let authController = require("../controllers/auth");
 
-router.get("/", participantController.getAll);
-router.get("/:id", participantController.getByParticipant);
-router.get("/activity/:id", participantController.getByActivity);
+router.get("/", participantController.getParticipant);
 
 router.post(
   "/add",
   authController.requireAuth,
-  participantController.processAdd
+  participantController.addParticipant
 );
 router.delete(
   "/delete/:id/",
   authController.requireAuth,
-  participantController.processDelete
+  participantController.deleteParticipant
 );
 
 module.exports = router;

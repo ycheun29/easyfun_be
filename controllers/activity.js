@@ -13,9 +13,11 @@ function getErrorMessage(err) {
   }
 }
 
-module.exports.getAll = async function (req, res, next) {
+module.exports.getActivity = async function (req, res, next) {
+  console.log("req.query: " + JSON.stringify(req.query));
+
   try {
-    let activityList = await Activity.find().populate({
+    let activityList = await Activity.find(req.query).populate({
       path: "owner",
       select: "firstName lastName email username created",
     });
@@ -29,7 +31,7 @@ module.exports.getAll = async function (req, res, next) {
   }
 };
 
-module.exports.processEdit = (req, res, next) => {
+module.exports.editActivity = (req, res, next) => {
   try {
     let id = req.params.id;
 
@@ -71,7 +73,7 @@ module.exports.processEdit = (req, res, next) => {
   }
 };
 
-module.exports.processAdd = (req, res, next) => {
+module.exports.addActivity = (req, res, next) => {
   try {
     let newItem = Activity({
       _id: req.body.id,
@@ -112,7 +114,7 @@ module.exports.processAdd = (req, res, next) => {
   }
 };
 
-module.exports.processDelete = (req, res, next) => {
+module.exports.deleteActivity = (req, res, next) => {
   try {
     let id = req.params.id;
 

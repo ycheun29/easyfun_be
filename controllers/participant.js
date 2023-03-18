@@ -13,47 +13,10 @@ function getErrorMessage(err) {
   }
 }
 
-module.exports.getByActivity = async function (req, res, next) {
+module.exports.getParticipant = async function (req, res, next) {
+  console.log("req.query: " + JSON.stringify(req.query));
   try {
-    let id = req.params.id;
-    let participantList = await Participant.find({ activity: id })
-      .populate("activity")
-      .populate({
-        path: "participant",
-        select: "firstName lastName email username created",
-      });
-
-    res.status(200).json(participantList);
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: getErrorMessage(error),
-    });
-  }
-};
-
-module.exports.getByParticipant = async function (req, res, next) {
-  try {
-    let id = req.params.id;
-    let participantList = await Participant.find({ participant: id })
-      .populate("activity")
-      .populate({
-        path: "participant",
-        select: "firstName lastName email username created",
-      });
-
-    res.status(200).json(participantList);
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: getErrorMessage(error),
-    });
-  }
-};
-
-module.exports.getAll = async function (req, res, next) {
-  try {
-    let participantList = await Participant.find()
+    let participantList = await Participant.find(req.query)
       .populate("activity")
       .populate({
         path: "participant",
@@ -68,7 +31,7 @@ module.exports.getAll = async function (req, res, next) {
   }
 };
 
-module.exports.processAdd = (req, res, next) => {
+module.exports.addParticipant = (req, res, next) => {
   try {
     let newItem = Participant({
       _id: req.body.id,
@@ -99,7 +62,7 @@ module.exports.processAdd = (req, res, next) => {
   }
 };
 
-module.exports.processDelete = (req, res, next) => {
+module.exports.deleteParticipant = (req, res, next) => {
   try {
     let id = req.params.id;
 

@@ -4,19 +4,19 @@ var router = express.Router();
 let activityController = require("../controllers/activity");
 let authController = require("../controllers/auth");
 
-router.get("/", activityController.getAll);
-router.post("/add", authController.requireAuth, activityController.processAdd);
+router.get("/", activityController.getActivity);
+router.post("/add", authController.requireAuth, activityController.addActivity);
 router.put(
   "/edit/:id",
   authController.requireAuth,
   authController.isAllowed,
-  activityController.processEdit
+  activityController.editActivity
 );
 router.delete(
   "/delete/:id",
   authController.requireAuth,
   authController.isAllowed,
-  activityController.processDelete
+  activityController.deleteActivity
 );
 
 module.exports = router;
