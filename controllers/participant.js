@@ -36,7 +36,7 @@ module.exports.addParticipant = (req, res, next) => {
     let newItem = Participant({
       _id: req.body.id,
       activity: req.body.activity,
-      participant: req.body.participant,
+      participant: req.payload.id,
     });
 
     Participant.create(newItem, (err, item) => {
