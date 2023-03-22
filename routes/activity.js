@@ -22,7 +22,7 @@ router.put(
   authController.isAllowed,
   activityController.editActivity
 );
-router.delete(
+router.put(
   "/delete/:id",
   authController.requireAuth,
   authController.isAllowed,

@@ -179,7 +179,7 @@ module.exports.deleteActivity = (req, res, next) => {
       } else {
         res.status(200).json({
           success: true,
-          message: "Activity deleted successfully.",
+          message: "Activity disabled successfully.",
         });
       }
     });
