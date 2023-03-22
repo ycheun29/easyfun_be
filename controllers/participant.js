@@ -50,7 +50,7 @@ module.exports.addParticipant = (req, res, next) => {
         console.log(item);
         res.status(200).json({
           success: true,
-          message: "Participant added successfully.",
+          message: "Registered event successfully.",
         });
       }
     });
