@@ -5,6 +5,10 @@ let passport = require("passport");
 let cors = require("cors");
 
 var indexRouter = require("../routes/index");
+var activityRouter = require("../routes/activity");
+var userRouter = require("../routes/user");
+var participantRouter = require("../routes/participant");
+var commentRouter = require("../routes/comment");
 
 var app = express();
 
@@ -18,6 +22,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 app.use("/", indexRouter);
+app.use("/activity", activityRouter);
+app.use("/user", userRouter);
+app.use("/participant", participantRouter);
+app.use("/comment", commentRouter);
 
 app.use(function (req, res, next) {
   next(createError(404, "Endpoint not found."));
