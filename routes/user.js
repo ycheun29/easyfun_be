@@ -4,6 +4,9 @@ let usersController = require('../controllers/user');
 let authController = require('../controllers/auth');
 
 /* GET users listing. */
+router.get("/", 
+authController.requireAuth,
+authController.isAdmin,usersController.getProfiles);
 
 router.get('/profile', authController.requireAuth, usersController.myprofile);
 

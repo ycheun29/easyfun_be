@@ -168,3 +168,22 @@ module.exports.signin = function(req, res, next){
       });
     }
   };
+
+
+
+module.exports.getProfiles = async function(req, res, next){
+
+
+  console.log("req.query: " + JSON.stringify(req.query));
+
+  try {
+    let userList = await User.find(req.query);
+
+    res.status(200).json(userList);
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+}
