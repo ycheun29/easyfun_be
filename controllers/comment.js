@@ -61,3 +61,34 @@ module.exports.processAdd = (req, res, next) => {
     });
   }
 };
+
+//Update Response
+module.exports.processEdit = (req, res, next) => {
+  try {
+    let id = req.params.id;
+    let update = {
+      response: req.body.response,
+    };
+
+    Comment.findOneAndUpdate({ _id: id }, update, (err, result) => {
+      if (err || result.modifiedCount == 0) {
+        console.log(err);
+
+        res.status(400).json({
+          success: false,
+          message: getErrorMessage(err),
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Answer is added successfully.",
+        });
+      }
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+};
