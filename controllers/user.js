@@ -118,7 +118,7 @@ module.exports.signin = function(req, res, next){
     try {
       
       let id = req.payload.id;
-      let me = await User.findById(id).select('firstName lastName email username isAdmin created');
+      let me = await User.findById(id).select('firstName lastName email username admin created');
   
       res.status(200).json(me)
   
