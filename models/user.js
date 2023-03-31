@@ -10,6 +10,7 @@ let UserSchema = mongoose.Schema(
       type: String,
       match: [/.+\@.+\..+/, "Please fill a valid e-mail address"],
     },
+    isAdmin : Boolean,
     username: {
       type: String,
       unique: true,
