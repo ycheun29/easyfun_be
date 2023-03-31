@@ -1,5 +1,6 @@
 let passport = require("passport");
 let ActivityModel = require("../models/activity");
+let UserModel = require("../models/user");
 let CommentModel = require("../models/comment");
 
 function getErrorMessage(err) {
@@ -36,6 +37,40 @@ exports.requireAuth = function (req, res, next) {
       next();
     }
   )(req, res, next);
+};
+
+
+// Validates the owner of the item.
+exports.isAdmin = async function (req, res, next) {
+  try {
+    //let id = req.params.id;
+    let id = req.payload.id;
+    let userItem = await UserModel.findById(id);
+
+    // If there is no item found.
+    if (userItem == null) {
+      throw new Error("Item not found."); // Express will catch this on its own.
+    } else if (userItem.admin == null || userItem.admin == false) {
+      // If the item found has a owner.
+
+        // If the owner differs, not authorized
+
+      console.log("====> Not authorized");
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to access this data.",
+      });
+    }
+
+    // If it reaches this point, runs the next middleware.
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
 };
 
 // Validates the owner of the item.
